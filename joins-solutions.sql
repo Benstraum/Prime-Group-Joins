@@ -64,3 +64,27 @@ ON customers.id = addresses.customer_id
 GROUP BY customers.id;
 
 
+--Total cost for each order
+
+SELECT orders.id, SUM(products.unit_price * quantity) 
+FROM orders
+JOIN line_items
+ON orders.id = line_items.order_id
+JOIN products
+ON line_items.product_id = products.id
+GROUP BY orders.id;
+
+
+-- How much has each customer spent?
+
+SELECT customers, SUM(products.unit_price * quantity) 
+FROM customers
+JOIN addresses 
+ON addresses.customer_id = customers.id
+JOIN orders
+ON orders.address_id= addresses.id
+JOIN line_items
+ON orders.id = line_items.order_id
+JOIN products
+ON line_items.product_id = products.id
+GROUP BY customers.id;
